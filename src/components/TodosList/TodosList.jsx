@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import TodoItem from './TodoItem';
 
-const TodosList = () => {
+const TodosList = ({ editHandler }) => {
   const data = useSelector((state) => state.myTodos);
 
   return (
@@ -13,6 +13,7 @@ const TodosList = () => {
         <TodoItem
           key={todoItem.id}
           todoItem={todoItem}
+          editHandler={() => editHandler(todoItem)}
         />
       ))}
     </div>

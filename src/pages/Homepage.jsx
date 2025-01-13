@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { addTodo } from '../redux/slices/todoSlice';
+import { addTodo, updateTodo } from '../redux/slices/todoSlice';
 import { useDispatch } from 'react-redux';
 import TodosList from '../components/TodosList/TodosList';
+import TodoForm from '../components/Form';
 
 const Homepage = () => {
   const [title, setTitle] = useState('');
   const [desc, setDescription] = useState('');
   const [status, setStatus] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentTodoId, setCurrentTodoId] = useState(null);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -14,62 +17,53 @@ const Homepage = () => {
     e.preventDefault();
     console.log('SUBMITED THE DATA: ', title, desc, status);
 
-    dispatch(
-      addTodo({
-        id: 2,
-        title: title,
+    if (isEditing) {
+      dispatch(updateTodo({
+        id: currentTodoId,
+        title,
         description: desc,
-        status: status
-      })
-    );
+        status
+      }));
+      setIsEditing(false);
+      setCurrentTodoId(null);
+    } else {
+      dispatch(
+        addTodo({
+          id: Date.now(),
+          title: title,
+          description: desc,
+          status: status
+        })
+      );
+    }
+
+    setTitle('')
+    setDescription('')
+    setStatus('')
+  };
+
+  const editHandler = (todo) => {
+    console.log('Editing todo: ', todo);
+    setTitle(todo.title);
+    setDescription(todo.description);
+    setStatus(todo.status);
+    setIsEditing(true);
+    setCurrentTodoId(todo.id)
   };
 
   return (
     <div>
       <h1 className='text-xl font-bold text-center'>My Todo App</h1>
       <div className='w-[80%] mx-auto my-3'>
-        <form onSubmit={handleSubmit}>
-          {/* Title */}
-          <div className='inputGroup grid'>
-            <label htmlFor='todo'>Enter todo title</label>
-            <input
-              type='text'
-              className='p-3 rounded-md border'
-              placeholder='Enter todo title'
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-
-          {/* Description */}
-          <div className='inputGroup grid my-3'>
-            <label htmlFor='desc'>Description</label>
-            <input
-              type='text'
-              className='p-3 rounded-md border'
-              placeholder='Enter todo description'
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-
-          <div className='inputGroup'>
-            <label htmlFor='status'>Status</label>
-            <select
-              onChange={(e) => setStatus(e.target.value)}
-              className='border w-full p-3 rounded-md'>
-              <option value='NOTSTARTED'>Not started</option>
-              <option value='INPROGRESS'>In progress</option>
-              <option value='COMPLETED'>Completed</option>
-            </select>
-          </div>
-
-          <div className='submitBtn my-3'>
-            <button className='bg-blue-600 px-8 py-3 text-white rounded-md font-bold hover:bg-blue-500 transition shadow-md'>
-              Save
-            </button>
-          </div>
-        </form>
-
-        <TodosList />
+        <TodoForm handleSubmit={handleSubmit}
+          setTitle={setTitle}
+          setDescription={setDescription}
+          setStatus={setStatus}
+          title={title}
+          desc={desc}
+          status={status}
+          buttonText={isEditing ? 'Update' : 'Save'} />
+        <TodosList editHandler={editHandler} />
       </div>
     </div>
   );
