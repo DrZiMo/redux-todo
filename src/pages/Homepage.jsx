@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addTodo, updateTodo } from '../redux/slices/todoSlice';
+import { addTodo, updateTodo, deleteTodo } from '../redux/slices/todoSlice';
 import { useDispatch } from 'react-redux';
 import TodosList from '../components/TodosList/TodosList';
 import TodoForm from '../components/Form';
@@ -13,7 +13,6 @@ const Homepage = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-    // Prevent the browser to refresh the page when the form is submited.
     e.preventDefault();
     console.log('SUBMITED THE DATA: ', title, desc, status);
 

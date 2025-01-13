@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TodoItem = ({ todoItem, editHandler }) => {
+const TodoItem = ({ todoItem, editHandler, deleteHandler }) => {
     return (
         <div className='todoItem border my-3 rounded-md p-3 flex justify-between items-center'>
             <div className=''>
@@ -10,7 +10,7 @@ const TodoItem = ({ todoItem, editHandler }) => {
             </div>
             <div className='buttons flex gap-2'>
                 <button className='px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-md text-white transition' onClick={() => editHandler(todoItem)}>Edit</button>
-                <button className='px-4 py-2 bg-red-600 hover:bg-red-500 rounded-md text-white transition'>Delete</button>
+                <button className='px-4 py-2 bg-red-600 hover:bg-red-500 rounded-md text-white transition' onClick={() => deleteHandler(todoItem)}>Delete</button>
             </div>
         </div>
     )
