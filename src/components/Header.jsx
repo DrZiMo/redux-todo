@@ -14,6 +14,7 @@ const Header = () => {
                 <Link to="/">Home</Link>
                 <Link to="/about">About</Link>
                 <Link to="/contact">Contact us</Link>
+                <Link to='/posts'>Posts</Link>
 
                 <button className="px-4 py-3 rounded-md bg-blue-700 text-white">
                     Register Now
