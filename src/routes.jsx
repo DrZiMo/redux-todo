@@ -5,6 +5,7 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import NotFound from './pages/NotFound';
 import Posts from './pages/Posts';
+import Comments from './pages/Comments';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: '/posts',
         element: <Posts />
+      },
+      {
+        path: '/comments',
+        element: <Comments />
       },
       {
         path: '*',
